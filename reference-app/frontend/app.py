@@ -9,7 +9,7 @@ from jaeger_client import Config
 
 app = Flask(__name__)
 metrics = PrometheusMetrics(app, group_by='endpoint')
-metrics.info('app_info', 'Application info', version='1.0.3')
+metrics.info('app_info', 'Application info', version='1.0')
 metrics.register_default(
     metrics.counter(
         'by_path_counter', 'Request count by request paths',
