@@ -56,7 +56,6 @@ def random_endpoint():
 @app.route('/')
 @by_endpoint_counter
 def homepage():
-    return render_template("main.html")
     with tracer.start_span('random_endpoint') as span:
         threading.Thread(target=random_endpoint).start()
         for _ in range(4):
@@ -65,6 +64,7 @@ def homepage():
             thread.start()
         while True:
             time.sleep(1)
+    return render_template("main.html")
     
 
 @app.route('/health-check')
