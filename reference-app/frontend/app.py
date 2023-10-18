@@ -50,8 +50,9 @@ def random_endpoint():
         app.logger.info(url_endpoint)
         backend_response = requests.get(url_endpoint, timeout=1)
         app.logger.info(backend_response)
-    except:
-        pass
+    except Exception as e:
+        print("The error is: ", e)
+        app.logger.info("The error is: ", e)
 
 
 @app.route('/')
