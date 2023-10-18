@@ -3,6 +3,7 @@ import threading
 import requests
 import random
 import time
+import os
 from prometheus_flask_exporter import PrometheusMetrics
 import logging
 from jaeger_client import Config
@@ -44,14 +45,12 @@ tracer = init_tracer('frontend')
 def random_endpoint():
     try:
         target = random.choice(endpoints)
-        backend_service = os.environ.get('BACKEND_ENDPOINT', default="https://localhost:8081")
+        backend_service = os.environ.get('BACKEND_ENDPOINT', default="http://localhost:8081")
         url_endpoint= f'{backend_service}/'+"%s" %target
-        app.logger.info("backend_service: ")
-        app.logger.info(url_endpoint)
+        app.logger.info("backend_service: ", url_endpoint)
         backend_response = requests.get(url_endpoint, timeout=1)
         app.logger.info(backend_response)
     except Exception as e:
-        print("The error is: ", e)
         app.logger.info("The error is: ", e)
 
 
@@ -60,7 +59,7 @@ def random_endpoint():
 def homepage():
     with tracer.start_span('random_endpoint') as span:
         for _ in range(2):
-            random_endpoint
+            random_endpoint()
     return render_template("main.html")
     
 
