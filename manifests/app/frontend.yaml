@@ -23,6 +23,9 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
+        env:
+        - name: BACKEND_ENDPOINT
+          value: "http://backend-service.default.svc.cluster.local:8081"
       restartPolicy: Always
 ---
 apiVersion: v1

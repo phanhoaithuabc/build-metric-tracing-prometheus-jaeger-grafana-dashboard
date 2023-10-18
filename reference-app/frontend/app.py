@@ -45,7 +45,9 @@ def random_endpoint():
     while True:
         try:
             target = random.choice(endpoints)
-            requests.get("http://app:8081/%s" % target, timeout=1)
+            backend_service = os.environ.get('BACKEND_ENDPOINT', default="https://localhost:8081")
+            url_endpoint= f'{backend_service}/'+"%s" %target
+            backend_response = requests.get(url_endpoint, timeout=1)
         except:
             pass
 
