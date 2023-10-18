@@ -47,7 +47,8 @@ def random_endpoint():
         target = random.choice(endpoints)
         backend_service = os.environ.get('BACKEND_ENDPOINT', default="http://localhost:8081")
         url_endpoint= f'{backend_service}/'+"%s" %target
-        app.logger.info("backend_service: ", url_endpoint)
+        app.logger.info("backend_service: ")
+        app.logger.info(url_endpoint)
         backend_response = requests.get(url_endpoint, timeout=1)
         app.logger.info(backend_response)
     except Exception as e:
