@@ -57,13 +57,8 @@ def random_endpoint():
 @by_endpoint_counter
 def homepage():
     with tracer.start_span('random_endpoint') as span:
-        threading.Thread(target=random_endpoint).start()
-        for _ in range(4):
-            thread = threading.Thread(target=random_endpoint)
-            thread.daemon = True
-            thread.start()
-        while True:
-            time.sleep(1)
+        for _ in range(2):
+            random_endpoint
     return render_template("main.html")
     
 
