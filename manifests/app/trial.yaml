@@ -7,6 +7,9 @@ metadata:
     prometheus.io/scrape: "true"
     prometheus.io/path: /metrics
     prometheus.io/port: trialport
+  labels: 
+    app: trial
+    release: prometheus
 spec:
   replicas: 1
   selector:

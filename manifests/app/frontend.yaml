@@ -7,6 +7,9 @@ metadata:
     prometheus.io/path: /metrics
     prometheus.io/port: frontendport
   name: frontend-app
+  labels: 
+    app: frontend
+    release: prometheus
 spec:
   replicas: 1
   selector:

@@ -4,6 +4,7 @@ metadata:
   name: backend-app
   labels: 
     app: backend
+    release: prometheus
   annotations: 
     "sidecar.jaegertracing.io/inject": "true"
     prometheus.io/scrape: "true"
