@@ -5,6 +5,7 @@ from prometheus_flask_exporter import PrometheusMetrics
 from jaeger_client import Config
 import logging
 from os import getenv
+from flask_cors import CORS
 
 app = Flask(__name__)
 app.config["MONGO_DBNAME"] = "example-mongodb"
@@ -26,6 +27,7 @@ by_endpoint_counter = metrics.counter(
     labels={'endpoint': lambda: request.endpoint}
 )
 JAEGER_AGENT_HOST = getenv('JAEGER_AGENT_HOST', 'localhost')
+CORS(app)
 
 def init_tracer(service):
     logging.getLogger('').handlers = []

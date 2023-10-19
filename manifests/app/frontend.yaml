@@ -2,9 +2,10 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
+    sidecar.jaegertracing.io/inject: "true"
     prometheus.io/scrape: 'true'
     prometheus.io/path: /metrics
-    prometheus.io/port: frontend
+    prometheus.io/port: frontendport
   name: frontend-app
 spec:
   replicas: 1
@@ -23,9 +24,13 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
+          name: frontendport
+          protocol: TCP
         env:
         - name: BACKEND_ENDPOINT
           value: "http://backend-service.default.svc.cluster.local:8081"
+        - name: JAEGER_AGENT_HOST
+          value: simplest-agent.observability.svc.cluster.local
       restartPolicy: Always
 ---
 apiVersion: v1

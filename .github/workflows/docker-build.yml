@@ -1,0 +1,40 @@
+name: prometheus-flask
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build_custom:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push backend
+        uses: docker/build-push-action@v2
+        with:
+          context: ./reference-app/backend
+          file: ./reference-app/backend/Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: phanhoaithu/backend:latest     
+
+      - name: Build and push frontend
+        uses: docker/build-push-action@v2
+        with:
+          context: ./reference-app/frontend
+          file: ./reference-app/frontend/Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: phanhoaithu/frontend:latest

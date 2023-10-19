@@ -5,7 +5,10 @@ metadata:
   labels: 
     app: backend
   annotations: 
-    "sidecar.jaegertracing.io/inject": "true" 
+    "sidecar.jaegertracing.io/inject": "true"
+    prometheus.io/scrape: "true"
+    prometheus.io/path: /metrics
+    prometheus.io/port: backendport
 spec:
   replicas: 1
   selector:
@@ -23,6 +26,8 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
+          name: backendport
+          protocol: TCP
         env:
         - name: JAEGER_AGENT_HOST
           value: simplest-agent.observability.svc.cluster.local
