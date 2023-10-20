@@ -6,7 +6,7 @@ metadata:
     prometheus.io/scrape: 'true'
     prometheus.io/path: /metrics
     prometheus.io/port: frontendport
-  name: frontend-app
+  name: frontend
   labels: 
     app: frontend
     release: prometheus
@@ -39,9 +39,6 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  annotations:
-    prometheus.io/port: "9090"
-    prometheus.io/scrape: "true"
   name: frontend-service
   labels:
     app: frontend
@@ -49,8 +46,10 @@ spec:
   selector:
     app: frontend
   ports:
-    - port: 8080
-      targetPort: 8080
+    - name: frontend
+      port: 8080
+      targetPort: frontendport
+      protocol: TCP
   type: LoadBalancer
 
 ---
@@ -70,7 +69,7 @@ spec:
   endpoints:
   - port: frontend
     path: /metrics
-    interval: 15s
+    interval: 10s
   namespaceSelector:
     matchNames:
     - default
