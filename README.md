@@ -14,6 +14,8 @@ kubectl port-forward -n monitoring service/prometheus-kube-prometheus-prometheus
 kubectl port-forward -n monitoring prometheus-grafana-8c58b6b68-cpzp9  3000:3000
 # get pass word grafana of admin
 kubectl get secret -n monitoring prometheus-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+
+kubectl port-forward -n observability  service/simplest-query --address 0.0.0.0 3002:16686
 ```
 <img src="answer-img/grafana-after-log-in.png"></img>
 
@@ -74,6 +76,8 @@ TROUBLE TICKET:
 - Affected Area: Backend Service (./reference-app/backend/app.py on code)
 - Severity: Critical
 - Description: **mongodb://example-mongodb-svc.default.svc.cluster.local:27017/example-mongodb** we define in code does - not exist in the cluster. We need to creare one for backend.
+
+
 
 ## Creating SLIs and SLOs
 *TODO:* We want to create an SLO guaranteeing that our application has a 99.95% uptime per month. Name four SLIs that you would use to measure the success of this SLO.

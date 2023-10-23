@@ -94,12 +94,16 @@ def my_api():
 @app.route("/star", methods=["POST"])
 @by_endpoint_counter
 def add_star():
-    star = mongo.db.stars
-    name = request.json["name"]
-    distance = request.json["distance"]
-    star_id = star.insert({"name": name, "distance": distance})
-    new_star = star.find_one({"_id": star_id})
-    output = {"name": new_star["name"], "distance": new_star["distance"]}
+    with tracer.start_span('star'):
+        try:
+            star = mongo.db.stars
+            name = request.json["name"]
+            distance = request.json["distance"]
+            star_id = star.insert({"name": name, "distance": distance})
+            new_star = star.find_one({"_id": star_id})
+            output = {"name": new_star["name"], "distance": new_star["distance"]}
+        except Exception as e:
+            app.logger.info("The error is: ", e)
     return jsonify({"result": output})
 
 @app.route('/4xx')
