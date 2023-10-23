@@ -77,7 +77,7 @@ TROUBLE TICKET:
 - Severity: Critical
 - Description: **mongodb://example-mongodb-svc.default.svc.cluster.local:27017/example-mongodb** we define in code does - not exist in the cluster. We need to creare one for backend.
 
-
+<img src="answer-img/trace-error-case-mongodb.png"></img>
 
 ## Creating SLIs and SLOs
 *TODO:* We want to create an SLO guaranteeing that our application has a 99.95% uptime per month. Name four SLIs that you would use to measure the success of this SLO.
